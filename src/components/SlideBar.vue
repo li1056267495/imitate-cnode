@@ -8,15 +8,16 @@
             <div class="author">作者</div>
             <div class="authorloginname">
               <router-link
-                :to="{name:'user_info',
-              params:{
-                name:userinfo.loginname
-              }
-              }"
+                :to="{
+                  name: 'user_info',
+                  params: {
+                    name: userinfo.loginname
+                  }
+                }"
               >
                 <img :src="userinfo.avatar_url" alt />
               </router-link>
-              <div class="score">积分{{userinfo.score}}</div>
+              <div class="score">积分{{ userinfo.score }}</div>
             </div>
           </div>
         </li>
@@ -26,15 +27,24 @@
             <a
               href="https://www.ucloud.cn/site/active/gift.html?utm_source=cnodejs&utm_medium=content_pic_pc_540_130&utm_campaign=huodong&utm_content=gift&ytag=cnodejs"
             >
-              <img src="//static.cnodejs.org/FgIok2ZlDer2QOb8sJ20S9Y8T2Jq" alt />
+              <img
+                src="//static.cnodejs.org/FgIok2ZlDer2QOb8sJ20S9Y8T2Jq"
+                alt
+              />
             </a>
             <a
               href="https://www.qiniu.com/events/20200316?utm_campaign=20200316&utm_content=cnode&utm_medium=banner&utm_source=cnode&utm_term=cnode"
             >
-              <img src="//static.cnodejs.org/FlajCCXkxZaOsuWp3k0iaiqfrJaS" alt />
+              <img
+                src="//static.cnodejs.org/FlajCCXkxZaOsuWp3k0iaiqfrJaS"
+                alt
+              />
             </a>
             <a href="https://www.aliyun.com/product/nodejs?ref=cnode">
-              <img src="//static.cnodejs.org/Fn4D6BhOTz1IswvmzeZ1q7QW1ls_" alt />
+              <img
+                src="//static.cnodejs.org/Fn4D6BhOTz1IswvmzeZ1q7QW1ls_"
+                alt
+              />
             </a>
           </div>
         </li>
@@ -45,10 +55,16 @@
             <ul>
               <li>
                 <a href="https://ruby-china.org/">
-                  <img src="//static2.cnodejs.org/public/images/ruby-china-20150529.png" alt />
+                  <img
+                    src="//static2.cnodejs.org/public/images/ruby-china-20150529.png"
+                    alt
+                  />
                 </a>
                 <a href="https://learnku.com/laravel">
-                  <img src="//static2.cnodejs.org/public/images/phphub-logo.png" alt />
+                  <img
+                    src="//static2.cnodejs.org/public/images/phphub-logo.png"
+                    alt
+                  />
                 </a>
               </li>
             </ul>
@@ -60,7 +76,9 @@
           <div class="qrcode">
             <img src="//static.cnodejs.org/FtG0YVgQ6iginiLpf9W4_ShjiLfU" alt />
             <p>
-              <a href="https://github.com/soliury/noder-react-native">客户端源码地址</a>
+              <a href="https://github.com/soliury/noder-react-native"
+                >客户端源码地址</a
+              >
             </p>
           </div>
         </li>
@@ -74,33 +92,32 @@ export default {
   data() {
     return {
       isloading: false,
-      userinfo: {},
+      userinfo: {}
     };
   },
   methods: {
     getData() {
       this.$http
         .get(`https://cnodejs.org/api/v1/user/${this.$route.params.name}`)
-        .then((res) => {
+        .then(res => {
           this.isloading = false;
           this.userinfo = res.data.data;
           console.log(res.data.data);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   beforeMount() {
     this.isloading = true;
     this.getData();
-  },
+  }
 };
 </script>
 <style scoped>
 .authorinfo {
-  float: right;
-  margin-top: -20px;
+  margin-left: 20px;
 }
 .loading {
   text-align: center;

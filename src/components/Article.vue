@@ -7,12 +7,12 @@
     <div v-else>
       <div class="topic_header">
         <!-- 标题 -->
-        <div class="topic_title">{{post.title}}</div>
+        <div class="topic_title">{{ post.title }}</div>
         <ul>
-          <li>•发布于：{{post.create_at | formatDate}}</li>
-          <li>•作者：{{post.author.loginname}}</li>
-          <li>•{{post.visit_count}}次浏览</li>
-          <li>•来自{{post|tabFormatter}}</li>
+          <li>•发布于：{{ post.create_at | formatDate }}</li>
+          <li>•作者：{{ post.author.loginname }}</li>
+          <li>•{{ post.visit_count }}次浏览</li>
+          <li>•来自{{ post | tabFormatter }}</li>
         </ul>
         <!-- 内容 -->
         <div v-html="post.content" class="topic_content"></div>
@@ -20,30 +20,37 @@
       <!-- 回复 -->
       <div class="reply">
         <div class="topbar">回复</div>
-        <div v-for="(reply,index) in post.replies" :key="index" class="replySec">
+        <div
+          v-for="(reply, index) in post.replies"
+          :key="index"
+          class="replySec"
+        >
           <div class="replyUp">
             <router-link
-              :to="{name:'user_info',
-              params:{
-                name:reply.author.loginname
-              }
+              :to="{
+                name: 'user_info',
+                params: {
+                  name: reply.author.loginname
+                }
               }"
             >
               <img :src="reply.author.avatar_url" alt />
             </router-link>
             <router-link
               :to="{
-          name:'user_info',
-          params:{
-            name:reply.author.loginname
-          }
-          }"
+                name: 'user_info',
+                params: {
+                  name: reply.author.loginname
+                }
+              }"
             >
-              <span>{{reply.author.loginname}}</span>
+              <span>{{ reply.author.loginname }}</span>
             </router-link>
-            <span>{{index+1}}楼</span>
+            <span>{{ index + 1 }}楼</span>
             <span>
-              <span v-if="reply.ups.length > 0" class="replyups">☝{{reply.ups.length}}</span>
+              <span v-if="reply.ups.length > 0" class="replyups"
+                >☝{{ reply.ups.length }}</span
+              >
               <span v-else></span>
             </span>
           </div>
@@ -58,33 +65,36 @@ export default {
   data() {
     return {
       isloading: false,
-      posts: [], //代表当前文章页的所有内容
+      posts: [] //代表当前文章页的所有内容
     };
   },
   methods: {
     getArticleData() {
       this.$http
         .get(`https://cnodejs.org/api/v1/topic/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           if (res.data.success === true) {
             this.isloading = false;
             this.post = res.data.data;
             console.log(res);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   beforeMount() {
     this.isloading = true;
     this.getArticleData();
-  },
+  }
 };
 </script>
 <style>
 @import url("../assets/markdown-github.css");
+.article {
+  margin-top: 20px;
+}
 .loading {
   text-align: center;
   padding-top: 300px;
@@ -106,11 +116,10 @@ a {
 }
 
 .topbar {
-  padding: 10px;
+  padding: 10px 10px;
   background-color: #f6f6f6;
-  height: 16px;
+  height: 40px;
   font-size: 12px;
-  margin-top: 10px;
 }
 
 .article:not(:first-child) {

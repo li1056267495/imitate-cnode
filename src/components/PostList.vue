@@ -9,7 +9,7 @@
       <ul>
         <li>
           <div class="tobar">
-            <span :class="{background:isshow}" @click="changecolor">全部</span>
+            <span>全部</span>
             <span>精华</span>
             <span>分享</span>
             <span>问答</span>
@@ -19,12 +19,12 @@
         <li v-for="(post, index) in posts" :key="index">
           <!-- 头像 -->
           <router-link
-            :to="{name:'user_info',
-          params:
-          {
-            name:post.author.loginname
-          }
-          }"
+            :to="{
+              name: 'user_info',
+              params: {
+                name: post.author.loginname
+              }
+            }"
           >
             <img :src="post.author.avatar_url" alt />
           </router-link>
@@ -37,9 +37,9 @@
           <span
             :class="[
               {
-                put_good: (post.good === true),
-                put_top: (post.top === true),
-                topiclist: (post.good !== true && post.top !== true)
+                put_good: post.good === true,
+                put_top: post.top === true,
+                topiclist: post.good !== true && post.top !== true
               }
             ]"
           >
@@ -48,11 +48,11 @@
           <!-- 标题 -->
           <router-link
             :to="{
-            name:'post_content',
-            params:{
-              id:post.id,
-              name:post.author.loginname
-            }
+              name: 'post_content',
+              params: {
+                id: post.id,
+                name: post.author.loginname
+              }
             }"
           >
             <span class="title">
@@ -62,6 +62,10 @@
 
           <!-- 时间 -->
           <span class="last_reply">{{ post.last_reply_at | formatDate }}</span>
+        </li>
+        <li>
+          <!-- 分页面子组件 -->
+          <pagination @handleList="renderList"></pagination>
         </li>
       </ul>
     </div>
@@ -74,13 +78,13 @@
             <p class="font1">CNode：Node.js专业中文社区</p>
             <p class="font2">
               您可以
-              <a href>登录</a>或
-              <a href>注册</a>，也可以
+              <a href>登录</a>或 <a href>注册</a>，也可以
             </p>
             <p class="font3">
               <a
                 href="https://github.com/login/oauth/authorize?response_type=code&redirect_uri=https%3A%2F%2Fcnodejs.org%2Fauth%2Fgithub%2Fcallback&client_id=0625d398dd9166a196e9"
-              >通过&nbsp&nbsp GitHub&nbsp&nbsp登录</a>
+                >通过&nbsp&nbsp GitHub&nbsp&nbsp登录</a
+              >
             </p>
           </div>
         </li>
@@ -90,15 +94,24 @@
             <a
               href="https://www.ucloud.cn/site/active/gift.html?utm_source=cnodejs&utm_medium=content_pic_pc_540_130&utm_campaign=huodong&utm_content=gift&ytag=cnodejs"
             >
-              <img src="//static.cnodejs.org/FgIok2ZlDer2QOb8sJ20S9Y8T2Jq" alt />
+              <img
+                src="//static.cnodejs.org/FgIok2ZlDer2QOb8sJ20S9Y8T2Jq"
+                alt
+              />
             </a>
             <a
               href="https://www.qiniu.com/events/20200316?utm_campaign=20200316&utm_content=cnode&utm_medium=banner&utm_source=cnode&utm_term=cnode"
             >
-              <img src="//static.cnodejs.org/FlajCCXkxZaOsuWp3k0iaiqfrJaS" alt />
+              <img
+                src="//static.cnodejs.org/FlajCCXkxZaOsuWp3k0iaiqfrJaS"
+                alt
+              />
             </a>
             <a href="https://www.aliyun.com/product/nodejs?ref=cnode">
-              <img src="//static.cnodejs.org/Fn4D6BhOTz1IswvmzeZ1q7QW1ls_" alt />
+              <img
+                src="//static.cnodejs.org/Fn4D6BhOTz1IswvmzeZ1q7QW1ls_"
+                alt
+              />
             </a>
           </div>
         </li>
@@ -120,9 +133,9 @@
           <div class="integration">积分榜 TOP100 >></div>
           <div class="nameNum">
             <ul>
-              <li v-for="(num,index) in nums" :key="index">
-                <span class="num1">{{num.key}}</span>
-                <span class="num2">{{num.name}}</span>
+              <li v-for="(num, index) in nums" :key="index">
+                <span class="num1">{{ num.key }}</span>
+                <span class="num2">{{ num.name }}</span>
               </li>
             </ul>
           </div>
@@ -134,10 +147,16 @@
             <ul>
               <li>
                 <a href="https://ruby-china.org/">
-                  <img src="//static2.cnodejs.org/public/images/ruby-china-20150529.png" alt />
+                  <img
+                    src="//static2.cnodejs.org/public/images/ruby-china-20150529.png"
+                    alt
+                  />
                 </a>
                 <a href="https://learnku.com/laravel">
-                  <img src="//static2.cnodejs.org/public/images/phphub-logo.png" alt />
+                  <img
+                    src="//static2.cnodejs.org/public/images/phphub-logo.png"
+                    alt
+                  />
                 </a>
               </li>
             </ul>
@@ -149,7 +168,9 @@
           <div class="qrcode">
             <img src="//static.cnodejs.org/FtG0YVgQ6iginiLpf9W4_ShjiLfU" alt />
             <p>
-              <a href="https://github.com/soliury/noder-react-native">客户端源码地址</a>
+              <a href="https://github.com/soliury/noder-react-native"
+                >客户端源码地址</a
+              >
             </p>
           </div>
         </li>
@@ -158,55 +179,59 @@
   </div>
 </template>
 <script>
+import pagination from "./Pagination.vue";
 export default {
+  components: {
+    pagination
+  },
   name: "PostList",
   data() {
     return {
-      isshow: false,
       isloading: false,
       posts: [],
+      postpage: 1,
       nums: [
         {
           key: "22385",
-          name: "i5ting",
+          name: "i5ting"
         },
         {
           key: "15820",
-          name: "alsotang",
+          name: "alsotang"
         },
         {
           key: "9800",
-          name: "atian25",
+          name: "atian25"
         },
         {
           key: "9350",
-          name: "leapon",
+          name: "leapon"
         },
         {
           key: "8780",
-          name: "jiyinyiyong",
+          name: "jiyinyiyong"
         },
         {
           key: "7485",
-          name: "yakczh",
+          name: "yakczh"
         },
         {
           key: "6855",
-          name: "im-here",
+          name: "im-here"
         },
         {
           key: "6120",
-          name: "DevinXian",
+          name: "DevinXian"
         },
         {
           key: "5815",
-          name: "chapgaga",
+          name: "chapgaga"
         },
         {
           key: "5375",
-          name: "magicdawn",
-        },
-      ],
+          name: "magicdawn"
+        }
+      ]
     };
   },
   methods: {
@@ -217,23 +242,28 @@ export default {
       this.$http
         .get("https://cnodejs.org/api/v1/topics", {
           params: {
-            page: 1,
-            limit: 40,
-          },
+            page: this.postpage,
+            limit: 40
+          }
         })
-        .then((res) => {
+        .then(res => {
           this.isloading = false;
           this.posts = res.data.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
+    renderList(value) {
+      debugger;
+      this.postpage = value;
+      this.getData();
+    }
   },
   beforeMount() {
     this.isloading = true; //加载成功之前，加载动画
     this.getData(); //加载页面之前，获取数据
-  },
+  }
 };
 </script>
 <style scoped>
@@ -281,6 +311,9 @@ a {
 }
 
 .posttitle li:not(:first-child):hover {
+  background: #f5f5f5;
+}
+.posttitle li:last-child {
   background: #f5f5f5;
 }
 
