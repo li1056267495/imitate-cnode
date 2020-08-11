@@ -2,9 +2,10 @@
   <div class="header">
     <div class="headermain">
       <img src="//static2.cnodejs.org/public/images/cnodejs_light.svg" alt />
+      <input type="text" class="search" />
       <ul>
         <li>
-          <a href="#">首页</a>
+          <a href="/">首页</a>
         </li>
         <li>
           <a href="#">新手入门</a>
@@ -31,23 +32,18 @@ export default {
 };
 </script>
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: bo;
-}
 .header {
   background: rgb(68, 68, 68);
   height: 50px;
 }
 .headermain {
+  display: flex;
   max-width: 1358px;
   margin: 0 auto;
 }
 img {
   max-width: 120px;
   margin-left: 15px;
-  margin-top: 10px;
 }
 a {
   text-decoration: none;
@@ -55,14 +51,35 @@ a {
   font-size: 12px;
   text-shadow: nonr;
 }
+a:hover {
+  color: aliceblue;
+}
 ul {
+  margin-left: 600px;
   list-style: none;
-  float: right;
   display: flex;
   margin-top: 4px;
 }
 li {
   list-style: none;
   padding: 10px 15px;
+}
+.search {
+  outline: none;
+  margin-left: 26px;
+  margin-top: 12px;
+  border: 1px solid red;
+  width: 240px;
+  height: 26px;
+  background: 4px 4px no-repeat #888;
+  padding: 3px 5px 3px 10px;
+  color: #666;
+  border: 0;
+  border-radius: 20px;
+  transition: all 0.5s;
+}
+.search:hover {
+  background: white;
+  transition: all 0.5s;
 }
 </style>

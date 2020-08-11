@@ -2,14 +2,14 @@
   <div class="posts">
     <!-- 在数据未加载前，加载动态图片 -->
     <div class="loading" v-if="isloading">
-      <img src="../assets/jiazai.gif" alt />
+      <img src="../assets/loading.gif" alt />
     </div>
     <!-- 主题帖子列表 -->
     <div class="posttitle" v-else>
       <ul>
         <li>
           <div class="tobar">
-            <span>全部</span>
+            <span :class="{background:isshow}" @click="changecolor">全部</span>
             <span>精华</span>
             <span>分享</span>
             <span>问答</span>
@@ -18,7 +18,16 @@
         </li>
         <li v-for="(post, index) in posts" :key="index">
           <!-- 头像 -->
-          <img :src="post.author.avatar_url" alt />
+          <router-link
+            :to="{name:'user_info',
+          params:
+          {
+            name:post.author.loginname
+          }
+          }"
+          >
+            <img :src="post.author.avatar_url" alt />
+          </router-link>
           <span class="allcount">
             <!-- 回复量/浏览量 -->
             <span class="reply_count">{{ post.reply_count }}</span>
@@ -41,7 +50,8 @@
             :to="{
             name:'post_content',
             params:{
-              id:post.id
+              id:post.id,
+              name:post.author.loginname
             }
             }"
           >
@@ -67,7 +77,11 @@
               <a href>登录</a>或
               <a href>注册</a>，也可以
             </p>
-            <p class="font3">通过 GitHub 登录</p>
+            <p class="font3">
+              <a
+                href="https://github.com/login/oauth/authorize?response_type=code&redirect_uri=https%3A%2F%2Fcnodejs.org%2Fauth%2Fgithub%2Fcallback&client_id=0625d398dd9166a196e9"
+              >通过&nbsp&nbsp GitHub&nbsp&nbsp登录</a>
+            </p>
           </div>
         </li>
         <!-- 广告 -->
@@ -148,6 +162,7 @@ export default {
   name: "PostList",
   data() {
     return {
+      isshow: false,
       isloading: false,
       posts: [],
       nums: [
@@ -195,6 +210,9 @@ export default {
     };
   },
   methods: {
+    changecolor() {
+      this.isshow = !this.isshow;
+    },
     getData() {
       this.$http
         .get("https://cnodejs.org/api/v1/topics", {
@@ -206,7 +224,6 @@ export default {
         .then((res) => {
           this.isloading = false;
           this.posts = res.data.data;
-          console.log(res.data.data);
         })
         .catch((err) => {
           console.log(err);
@@ -220,14 +237,9 @@ export default {
 };
 </script>
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-.loading img {
-  width: 600px;
-  height: 600px;
+.loading {
+  text-align: center;
+  padding-top: 300px;
 }
 img {
   width: 30px;
@@ -239,6 +251,9 @@ a {
   color: #778087;
   font-size: 13px;
   text-shadow: nonr;
+}
+.background {
+  background: rgb(128, 129, 1);
 }
 .posts {
   background: #e1e1e1;
@@ -356,10 +371,28 @@ a {
   margin-left: 14px;
 }
 .community .font1 {
+  margin-top: -12px;
   font-size: 16px;
 }
 .community .font2 {
   font-size: 12px;
+}
+.community .font3 {
+  margin-top: 6px;
+  margin-bottom: -8px;
+}
+.community .font3 a {
+  background-color: #5bc0de;
+  border-radius: 4px;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  font-size: 14px;
+  transition: all 0.3s ease-in-out;
+}
+.community .font3 a:hover {
+  background-color: #359dbd;
+  transition: all 0.3s ease-in-out;
 }
 .advertising {
   display: flex;

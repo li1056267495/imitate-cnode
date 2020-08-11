@@ -2,7 +2,7 @@
   <div class="article">
     <!-- 如果正在加载显示加载动画 -->
     <div class="loading" v-if="isloading">
-      <img src="../assets/jiazai.gif" alt />
+      <img src="../assets/loading.gif" alt />
     </div>
     <div v-else>
       <div class="topic_header">
@@ -22,8 +22,25 @@
         <div class="topbar">回复</div>
         <div v-for="(reply,index) in post.replies" :key="index" class="replySec">
           <div class="replyUp">
-            <img :src="reply.author.avatar_url" alt />
-            <span>{{reply.author.loginname}}</span>
+            <router-link
+              :to="{name:'user_info',
+              params:{
+                name:reply.author.loginname
+              }
+              }"
+            >
+              <img :src="reply.author.avatar_url" alt />
+            </router-link>
+            <router-link
+              :to="{
+          name:'user_info',
+          params:{
+            name:reply.author.loginname
+          }
+          }"
+            >
+              <span>{{reply.author.loginname}}</span>
+            </router-link>
             <span>{{index+1}}楼</span>
             <span>
               <span v-if="reply.ups.length > 0" class="replyups">☝{{reply.ups.length}}</span>
@@ -68,6 +85,10 @@ export default {
 </script>
 <style>
 @import url("../assets/markdown-github.css");
+.loading {
+  text-align: center;
+  padding-top: 300px;
+}
 .reply,
 .topic_header {
   background-color: #fff;

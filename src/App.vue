@@ -2,6 +2,7 @@
   <div id="app">
     <Header />
     <div class="main">
+      <router-view name="otherMain"></router-view>
       <router-view name="bodyMain"></router-view>
     </div>
   </div>
@@ -23,6 +24,11 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+ul,
+li {
+  list-style: none;
 }
 #app {
   background: #e1e1e1;
